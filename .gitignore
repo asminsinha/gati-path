@@ -1,0 +1,30 @@
+# Ignore the Python Virtual Environment completely
+venv/
+.venv/
+env/
+
+# Ignore Python runtime cache compilation files
+**/__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Ignore local system/IDE configuration files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Ignore raw node modules from your original frontend workspace
+**/node_modules/
+
+# Ignore any local data/ML model checkpoints or temporary logs
+*.log
+.cache/
+
+# Explicitly ignore any empty or discarded old frontend testing folders 
+backend/services/dhan_sanchay/
+backend/services/jan_shakti/
+backend/services/rakshak_ai
+data/processed/
+models/

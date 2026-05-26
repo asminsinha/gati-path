@@ -1,0 +1,20 @@
+# Data Handling
+pandas
+numpy
+
+# AI/ML Kernels
+scikit-learn
+xgboost
+lightgbm
+torch
+
+# API & Backend
+fastapi
+uvicorn
+python-multipart
+
+# Explainer AI
+shap
+
+# Utilities
+python-dotenv
