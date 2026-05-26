@@ -1,12 +1,12 @@
 import React from 'react';
 
 export default function App() {
-  // Enterprise Module Distribution Manifest containing real individual link hooks
+
   const systemModules = [
     {
       id: 'gati-path',
       title: 'Gati-Path Engine Terminal',
-      url: 'http://127.0.0.1:8000/gati-path/dashboard', // Standalone project webpage link
+      url: 'http://127.0.0.1:8000/gati-path/dashboard', 
       folder: 'services/gati_path',
       icon: '🗺️',
       description: 'Geospatial logistics platform aggregating structural transit network metrics, real-time Open-Meteo vectors, and dynamic IoT tracking payloads.',
@@ -42,7 +42,7 @@ export default function App() {
   ];
 
   const handleLaunchWorkspace = (url) => {
-    // Open the separate individual webpage instance in a new tab
+    
     window.open(url, '_blank', 'noopener,noreferrer');
   };
 

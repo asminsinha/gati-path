@@ -10,17 +10,14 @@ from pydantic import BaseModel
 from typing import Optional
 from fastapi.responses import HTMLResponse
 
-# IMPORT YOUR GENUINE ML MODULES
+
 from backend.services.gati_path.data_loader import GatiDataLoader
 from backend.services.gati_path.optimizer import GatiOptimizer
 from backend.services.gati_path.explainer import GatiExplainer
 
-# PRESERVE YOUR ORIGINAL ROUTER PREFIX CONFIGURATION
+
 router = APIRouter(prefix="/gati-path", tags=["Gati-Path"])
 
-# ------------------------------------------------------------------
-# GLOBAL ML PIPELINE ENGINE LIFE-CYCLE
-# ------------------------------------------------------------------
 GLOBAL_ML_PIPELINE = {
     "optimizer": None,
     "explainer": None,
@@ -29,12 +26,12 @@ GLOBAL_ML_PIPELINE = {
 
 def bootstrap_production_ml_model():
     """Initializes, cleans, and trains the 75%+ accurate Random Forest model on server start."""
-    print("\n🚀 [ML ENGINE INITIALIZATION] Training Random Forest from Kaggle Core...", flush=True)
+    print("\n [ML ENGINE INITIALIZATION] Training Random Forest from Kaggle Core...", flush=True)
     try:
         dataset_path = os.path.join("data", "raw", "smart_logistics_dataset.csv")
         if not os.path.exists(dataset_path):
-            print(f"⚠️ Dataset path not found at {dataset_path}. Creating adaptive mock calibration matrix...", flush=True)
-            # Create a localized fallback feature columns list to prevent app execution crashes
+            print(f" Dataset path not found at {dataset_path}. Creating adaptive mock calibration matrix...", flush=True)
+            
             GLOBAL_ML_PIPELINE["feature_columns"] = [
                 'Traffic_Status', 'Waiting_Time', 'Demand_Forecast', 'Asset_Utilization',
                 'User_Transaction_Amount', 'User_Purchase_Frequency', 
@@ -42,7 +39,7 @@ def bootstrap_production_ml_model():
             ]
             return
 
-        # Use your genuine pipeline classes to load, clean, and fit data
+       
         loader = GatiDataLoader(dataset_path)
         loader.load_and_preprocess()
         train_set, val_set, _ = loader.get_stratified_split()
@@ -52,21 +49,18 @@ def bootstrap_production_ml_model():
         
         explainer = GatiExplainer(optimizer.model, train_set[0])
         
-        # Cache inside global references to handle live web endpoints
+       
         GLOBAL_ML_PIPELINE["optimizer"] = optimizer
         GLOBAL_ML_PIPELINE["explainer"] = explainer
         GLOBAL_ML_PIPELINE["feature_columns"] = train_set[0].columns.tolist()
-        print("🏆 [ML ENGINE SUCCESS] 500-Tree Forest and SHAP TreeExplainer are fully online!\n", flush=True)
+        print(" [ML ENGINE SUCCESS] 500-Tree Forest and SHAP TreeExplainer are fully online!\n", flush=True)
     except Exception as e:
-        print(f"❌ [ML ENGINE INITIALIZATION FAILED]: {e}\n", flush=True)
+        print(f" [ML ENGINE INITIALIZATION FAILED]: {e}\n", flush=True)
 
-# Run the training loop instantly when FastAPI mounts the router script
+
 bootstrap_production_ml_model()
 
 
-# ------------------------------------------------------------------
-# ORIGINAL CORE TELEMETRY UTILITIES
-# ------------------------------------------------------------------
 def calculate_straight_line_km(lat1: float, lng1: float, lat2: float, lng2: float) -> float:
     radius = 6371.0 
     d_lat = math.radians(lat2 - lat1)
@@ -77,8 +71,8 @@ def calculate_straight_line_km(lat1: float, lng1: float, lat2: float, lng2: floa
     return radius * c
 
 FLEET_SYSTEM_STATE = {}
-# --- ADD THIS NEXT TO YOUR FLEET_SYSTEM_STATE DEFINITION ---
-FLEET_ANALYTICS_HISTORY = {}  # Tracks rolling telemetry arrays for dynamic graph trends
+
+FLEET_ANALYTICS_HISTORY = {}
 
 class IoTPingPayload(BaseModel):
     tracking_id: str
@@ -172,9 +166,6 @@ def determine_live_traffic(lat: float, lng: float, dest_lat: float, dest_lng: fl
     return get_real_traffic_delay(lat, lng, dest_lat, dest_lng, hours_driven, cargo_load_kg)
 
 
-# ------------------------------------------------------------------
-# TELEMETRY ENDPOINTS UPDATED WITH REALSISTIC INFERENCE LIFECYCLES
-# ------------------------------------------------------------------
 def compute_dynamic_driver_metrics(t_id: str, payload, delay_mins: float, current_fuel: float, traffic: str):
     """
     Computes purely mathematical, dynamic performance components using 
@@ -552,12 +543,9 @@ async def get_fleet_summary(tracking_id: str = "ALL"):
     return {tracking_id: FLEET_SYSTEM_STATE[tracking_id]}
 
 
-# ------------------------------------------------------------------
-# PRESERVE HTML UI INTERFACE DASHBOARD UNDER THE EXACT MATCHING ROUTER
-# ------------------------------------------------------------------
 @router.get("/dashboard", response_class=HTMLResponse)
 async def get_web_dashboard():
-    # Retaining your absolute frontend HTML source verbatim
+    
     html_content = """
 <!DOCTYPE html>
 <html lang="en">
@@ -611,7 +599,7 @@ async def get_web_dashboard():
 
         <div class="workspace-layout">
             <div class="setup-panel">
-                <div class="panel-title">📡 Connect New IoT Device</div>
+                <div class="panel-title"> Connect New IoT Device</div>
                 <div class="form-group">
                     <label>Hardware Target Name ID</label>
                     <input type="text" id="input-track-id" placeholder="e.g. TRK-99-KOLKATA" value="TRK-01-MUMBAI">
@@ -621,7 +609,7 @@ async def get_web_dashboard():
             </div>
 
             <div class="monitor-deck">
-                <div class="panel-title" style="color: #e2e8f0;">📺 Real-Time Telemetry Terminal Map</div>
+                <div class="panel-title" style="color: #e2e8f0;"> Real-Time Telemetry Terminal Map</div>
                 <div class="grid" id="fleet-live-grid">
                     <div class="empty-state" id="empty-prompt">
                         Awaiting active telemetry streams. Register a hardware ID on the control deck to initialize dashboard generation templates.
@@ -678,7 +666,7 @@ async def get_web_dashboard():
             return `
                 <div class="card" id="card-${id}">
                     <div class="header-row">
-                        <span class="vehicle-id" id="${id}-title">🚛 ${id}</span>
+                        <span class="vehicle-id" id="${id}-title"> ${id}</span>
                         <span class="live-tag">LIVE_STREAM</span>
                     </div>
                     <div id="${id}-delay" class="delay-time">0.0 Mins</div>
@@ -690,7 +678,7 @@ async def get_web_dashboard():
                     <div id="${id}-dir" class="directive-box">Awaiting transmission matrix pack...</div>
 
                     <div style="margin-top:15px; padding:12px; background:#0b0f19; border-radius:8px; border:1px solid #1f2937;">
-                        <span class="label" style="display:block; margin-bottom:12px; color:#38bdf8; font-weight:bold; letter-spacing:0.5px;">📈 DRIVER BEHAVIORAL TELEMETRY CHANNELS</span>
+                        <span class="label" style="display:block; margin-bottom:12px; color:#38bdf8; font-weight:bold; letter-spacing:0.5px;"> DRIVER BEHAVIORAL TELEMETRY CHANNELS</span>
                         
                         <div style="margin-bottom: 12px; border-bottom: 1px dashed #1e293b; padding-bottom: 8px;">
                             <div style="display:flex; justify-content:space-between; margin-bottom:4px;">

@@ -1,4 +1,4 @@
-# simulate_iot.py
+
 import requests
 import time
 import sys
@@ -84,20 +84,20 @@ try:
         for t_id, hardware in FLEET_HARDWARE_SIMULATOR.items():
             
             if hardware["is_resting"]:
-                hardware["rest_duration"] += 0.2  # Simulate 12 minutes of real-world rest per cycle
+                hardware["rest_duration"] += 0.2 
                 
-                # Check if driver cuts their break short (Example: only resting for 0.4 hrs instead of 0.6)
+               
                 if hardware["rest_duration"] >= 0.6:
                     hardware["hours"] = 0.0
                     hardware["is_resting"] = False
                     hardware["rest_duration"] = 0.0
-                    print(f"✅ [REST COMPLETE]: {t_id} driver fully rested. Resuming route tracking.")
+                    print(f" [REST COMPLETE]: {t_id} driver fully rested. Resuming route tracking.")
                 else:
-                    # Partially decrement duty strain to simulate real timeline continuity
+                    
                     hardware["hours"] = max(0.0, round(hardware["hours"] - 0.2, 2))
                     print(f"💤 [REST IN PROGRESS]: {t_id} is stopped at parking hub.")
             else:
-                # Normal road navigation: advance position metrics
+                
                 hardware["lat"] += hardware["lat_step"]
                 hardware["lng"] += hardware["lng_step"]
                 
@@ -116,7 +116,7 @@ try:
                 "cargo_load_kg": hardware["load"],
                 "hours_driven_without_rest": hardware["hours"],
                 
-                # Dynamic metadata inclusions mapped to your 'hardware' loop variable
+                
                 "vehicle_no": hardware["vehicle_no"],
                 "destination_name": hardware["destination_name"],
                 "destination_lat": hardware["destination_lat"],
@@ -129,12 +129,12 @@ try:
             }
             
             try:
-                # Issue the stateless telemetry sync ping
+               
                 response = requests.post(f"{BASE_URL}/iot-ping", json=payload)
                 if response.status_code == 200:
                     analysis_res = response.json()
                     
-                    # Read the compliance flag issued by our server's rules
+                    
                     if analysis_res.get("fatigue_lock", False) and not hardware["is_resting"]:
                         print(f"⚠️ [COMPLIANCE TRIGGER]: Driver of {t_id} forcing mandatory stop.")
                         hardware["is_resting"] = True
@@ -143,11 +143,11 @@ try:
                     print(f"    ↳ Executive Insight: {analysis_res.get('insight')}")
             
             except requests.exceptions.ConnectionError:
-                print("❌ Pipeline Offline. Check your backend server state.")
+                print(" Pipeline Offline. Check your backend server state.")
                 sys.exit(1)
                 
         step += 1
         time.sleep(2.0)
 
 except KeyboardInterrupt:
-    print("\n🛑 Telemetry stream terminated safely.")
+    print("\n Telemetry stream terminated safely.")

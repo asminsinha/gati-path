@@ -4,15 +4,14 @@ import numpy as np
 
 class GatiOptimizer:
     def __init__(self):
-        # Optimized parameters to target the 75-80% range
-        # Increasing n_estimators and adjusting depth helps stability
+        
         self.model = RandomForestClassifier(
-            n_estimators=500,       # More trees = more stable predictions
-            max_depth=15,           # Prevents memorization while allowing complexity
+            n_estimators=500,       
+            max_depth=15,           
             min_samples_leaf=1, 
             min_samples_split=5,
-            random_state=10,        # Ensures consistency across runs
-            class_weight='balanced' # Vital for logistics where delays are critical
+            random_state=10,       
+            class_weight='balanced' 
         )
         
     def train_with_validation(self, train_data, val_data):
@@ -24,8 +23,8 @@ class GatiOptimizer:
         val_preds = self.model.predict(X_val)
         val_acc = accuracy_score(y_val, val_preds)
         
-        print(f"✅ Gati-Path Intelligence Trained.")
-        print(f"📊 Validation Set Accuracy: {val_acc:.2%}")
+        print(f" Gati-Path Intelligence Trained.")
+        print(f" Validation Set Accuracy: {val_acc:.2%}")
         return val_acc
 
     def test_performance(self, test_data):
@@ -33,7 +32,6 @@ class GatiOptimizer:
         y_pred = self.model.predict(X_test)
         test_acc = accuracy_score(y_test, y_pred)
         
-        # This is the 'Truth' score the businessman sees
         print(f"🏆 Final Reliable Accuracy: {test_acc:.2%}")
         return test_acc
 
@@ -41,6 +39,6 @@ class GatiOptimizer:
         return self.model.predict_proba(data)[:, 1]
 
     def solve_tsp_with_risk(self, locations, risks):
-        # Ranks routes: Lowest Risk + Optimal Sequence
+        
         ordered_indices = np.lexsort((risks, locations)) 
         return ordered_indices.tolist()

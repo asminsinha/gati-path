@@ -3,7 +3,7 @@ from datetime import datetime
 
 class GatiLiveTracker:
     def __init__(self):
-        # Stores { tracking_id: {lat, lng, traffic, timestamp} }
+        
         self.active_vehicles = {}
 
     def update_location(self, tracking_id, lat, lng, traffic_status):
@@ -18,5 +18,5 @@ class GatiLiveTracker:
     def get_vehicle_status(self, tracking_id):
         return self.active_vehicles.get(tracking_id)
 
-# Initialize a single instance to be used by the API
+
 tracker_store = GatiLiveTracker()

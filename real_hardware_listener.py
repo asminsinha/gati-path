@@ -1,4 +1,4 @@
-# real_hardware_listener.py
+
 import json
 import httpx
 import paho.mqtt.client as mqtt
@@ -8,14 +8,14 @@ MQTT_BROKER = "broker.hivemq.com"
 MQTT_TOPIC = "vitarai/fleet/telemetry/#"
 ROUTER_URL = "http://127.0.0.1:8000/gati-path/iot-ping"
 
-# 2. This event triggers ONLY when an actual truck transmits a wireless packet
+
 def on_message(client, userdata, msg):
     try:
         raw_payload = msg.payload.decode("utf-8")
         hardware_sensor_data = json.loads(raw_payload)
         
         tracking_id = hardware_sensor_data["tracking_id"]
-        print(f"📡 [WIRELESS CELL FRAME RECEIVED] From Truck: {tracking_id}")
+        print(f" [WIRELESS CELL FRAME RECEIVED] From Truck: {tracking_id}")
         
         compiled_packet = {
             "tracking_id":              tracking_id,
@@ -32,7 +32,6 @@ def on_message(client, userdata, msg):
     except Exception as e:
         print(f" Error parsing hardware packet: {e}")
 
-# 3. Initialize the background listener engine
 mqtt_client = mqtt.Client()
 mqtt_client.on_message = on_message
 
