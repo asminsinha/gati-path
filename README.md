@@ -1,6 +1,6 @@
 # Gati-Path: Real-Time IoT Telemetry Processing and Predictive Transit Delay Engine
 
-Gati-Path is an operational backend framework designed to process high-frequency IoT telemetry streams from a commercial transport fleet. The system ingests spatial and vehicular diagnostic payloads, tracks asset states dynamically in memory, and evaluates potential transit risk boundaries using a tabular Random Forest classifier coupled with local SHAP (SHapley Additive exPlanations) feature attribution.
+Gati-Path is a real-time operational backend framework designed to process high-frequency IoT telemetry streams from a commercial transport fleet. The system ingests spatial and vehicular diagnostic payloads, tracks asset states dynamically in memory, and evaluates potential transit risk boundaries using a tabular Random Forest classifier coupled with local SHAP (SHapley Additive exPlanations) feature attribution.
 
 ---
 
@@ -120,6 +120,7 @@ This project combines multiple interdisciplinary engineering domains into a unif
 - Multi-Layer Operational Alert Systems
 - Applied Systems Architecture for Logistics Technology
 
+---
 
 # Performance Analysis
 
@@ -556,7 +557,8 @@ Planned architectural upgrades include:
 
 # Author
 
-Developed and engineered by **Asmin Sinha**
+**Asmin Sinha**  
+Developer and systems architect behind Gati-Path — an explainable AI-powered logistics telemetry and operational analytics platform.
 
 
 # License
